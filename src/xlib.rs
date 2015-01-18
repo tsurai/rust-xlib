@@ -1247,6 +1247,34 @@ pub struct XSizeHints {
     pub win_gravity: c_int
 }
 
+bitflags! {
+  flags XWMHintFlags: c_long {
+    const Input        = 0x00000001,
+    const State        = 0x00000002,
+    const IconPixmap   = 0x00000004,
+    const IconWindow   = 0x00000008,
+    const IconPosition = 0x00000010,
+    const IconMask     = 0x00000020,
+    const WindowGroup  = 0x00000040,
+    const Urgency      = 0x00000100,
+    const AllHints     = Input.bits | State.bits | IconPixmap.bits | IconWindow.bits |
+    IconPosition.bits | IconMask.bits | WindowGroup.bits
+  }
+}
+
+#[repr(C)]
+pub struct XWMHints {
+  pub flags: XWMHintFlags,
+  pub input: bool,
+  pub initial_state: c_int,
+  pub icon_pixmap: c_ulong,
+  pub icon_window: c_ulong,
+  pub icon_x: c_int,
+  pub icon_y: c_int,
+  pub icon_mask: c_ulong,
+  pub window_group: c_ulong
+}
+
 pub static ZPixmap: c_int = 2;  // depth == drawable depth
 
 #[link(name="X11")]
@@ -1679,6 +1707,8 @@ extern {
     pub fn XGetWindowAttributes(arg0: *mut Display, arg1: Window, arg2: *mut XWindowAttributes) -> c_int;
 
     pub fn XGetWMNormalHints(arg0: *mut Display, arg1: Window, arg2: *mut XSizeHints, arg3: *mut c_long) -> c_int;
+
+    pub fn XGetWMHints(arg0: *mut Display, arg1: Window) -> *mut XWMHints;
 
     pub fn XGrabButton(arg0: *mut Display, arg1: c_uint, arg2: c_uint, arg3: Window, arg4: c_int, arg5: c_uint, arg6: c_int, arg7: c_int, arg8: Window, arg9: Cursor) -> c_int;
 
