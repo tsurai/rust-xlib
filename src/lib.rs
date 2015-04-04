@@ -12,8 +12,6 @@
 #![crate_type = "dylib"]
 #![crate_type = "rlib"]
 
-#![feature(globs)]
-#![feature(libc)]
 #[macro_use] extern crate bitflags;
 extern crate libc;
 
