@@ -77,32 +77,37 @@ pub const ClientMessage: c_int = 33;
 pub const MappingNotify: c_int = 34;
 pub const GenericEvent: c_int= 35;
 
-pub const NoEventMask: c_long = 0;
-pub const KeyPressMask: c_long = (1<<0);
-pub const KeyReleaseMask: c_long = (1<<1);
-pub const ButtonPressMask: c_long = (1<<2);
-pub const ButtonReleaseMask: c_long = (1<<3);
-pub const EnterWindowMask: c_long = (1<<4);
-pub const LeaveWindowMask: c_long = (1<<5);
-pub const PointerMotionMask: c_long = (1<<6);
-pub const PointerMotionHintMask: c_long = (1<<7);
-pub const Button1MotionMask: c_long = (1<<8);
-pub const Button2MotionMask: c_long = (1<<9);
-pub const Button3MotionMask: c_long = (1<<10);
-pub const Button4MotionMask: c_long = (1<<11);
-pub const Button5MotionMask: c_long = (1<<12);
-pub const ButtonMotionMask: c_long = (1<<13);
-pub const KeymapStateMask: c_long = (1<<14);
-pub const ExposureMask: c_long = (1<<15);
-pub const VisibilityChangeMask: c_long = (1<<16);
-pub const StructureNotifyMask: c_long = (1<<17);
-pub const ResizeRedirectMask: c_long = (1<<18);
-pub const SubstructureNotifyMask: c_long = (1<<19);
-pub const SubstructureRedirectMask: c_long = (1<<20);
-pub const FocusChangeMask: c_long = (1<<21);
-pub const PropertyChangeMask: c_long = (1<<22);
-pub const ColormapChangeMask: c_long = (1<<23);
-pub const OwnerGrabButtonMask: c_long = (1<<24);
+bitflags! {
+    #[repr(C)]
+    flags InputEventMasks: c_long {
+        const NoEventMask = 0,
+        const KeyPressMask = (1<<0),
+        const KeyReleaseMask = (1<<1),
+        const ButtonPressMask = (1<<2),
+        const ButtonReleaseMask = (1<<3),
+        const EnterWindowMask = (1<<4),
+        const LeaveWindowMask = (1<<5),
+        const PointerMotionMask = (1<<6),
+        const PointerMotionHintMask = (1<<7),
+        const Button1MotionMask = (1<<8),
+        const Button2MotionMask = (1<<9),
+        const Button3MotionMask = (1<<10),
+        const Button4MotionMask = (1<<11),
+        const Button5MotionMask = (1<<12),
+        const ButtonMotionMask = (1<<13),
+        const KeymapStateMask = (1<<14),
+        const ExposureMask = (1<<15),
+        const VisibilityChangeMask = (1<<16),
+        const StructureNotifyMask = (1<<17),
+        const ResizeRedirectMask = (1<<18),
+        const SubstructureNotifyMask = (1<<19),
+        const SubstructureRedirectMask = (1<<20),
+        const FocusChangeMask = (1<<21),
+        const PropertyChangeMask = (1<<22),
+        const ColormapChangeMask = (1<<23),
+        const OwnerGrabButtonMask = (1<<24)
+    }
+}
 
 #[repr(C)]
 pub struct struct__XExtData {

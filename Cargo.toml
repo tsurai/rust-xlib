@@ -5,6 +5,7 @@ version = "0.1.0"
 authors = ["The Servo Project Developers"]
 
 [dependencies]
+bitflags = "*"
 libc = "*"
 
 [lib]

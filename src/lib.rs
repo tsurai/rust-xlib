@@ -12,6 +12,8 @@
 #![crate_type = "dylib"]
 #![crate_type = "rlib"]
 
+#[macro_use]
+extern crate bitflags;
 extern crate libc;
 
 pub use xlib::*;
