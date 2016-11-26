@@ -11,6 +11,7 @@
 #![allow(non_camel_case_types)]
 
 use libc::*;
+use std::mem;
 
 pub type XID = c_ulong;
 
@@ -79,7 +80,7 @@ pub const GenericEvent: c_int= 35;
 
 bitflags! {
     #[repr(C)]
-    flags InputEventMasks: c_long {
+    pub flags InputEventMasks: c_long {
         const NoEventMask = 0,
         const KeyPressMask = (1<<0),
         const KeyReleaseMask = (1<<1),
@@ -107,6 +108,77 @@ bitflags! {
         const ColormapChangeMask = (1<<23),
         const OwnerGrabButtonMask = (1<<24)
     }
+}
+
+bitflags! {
+    #[repr(C)]
+    pub flags XSizeHintFlags: c_long {
+        const USPosition = (1<<0),
+        const UsSize = (1<<1),
+        const PPosition = (1<<2),
+        const PSize = (1<<3),
+        const PMinSize = (1<<4),
+        const PMaxSize = (1<<5),
+        const PResizeInc = (1<<6),
+        const PAspect = (1<<7),
+        const PBaseSize = (1<<8),
+        const PWinGravity = (1<<9),
+        const PAllHints = (1<<10)-1
+    }
+}
+
+#[repr(C)]
+pub struct XSizeHintInternal {
+    pub x: c_int,
+    pub y: c_int
+}
+
+pub struct XSizeHints {
+    pub flags: XSizeHintFlags,
+    pub x: c_int,
+    pub y: c_int,
+    pub width: c_int,
+    pub height: c_int,
+    pub min_width: c_int,
+    pub max_width: c_int,
+    pub min_height: c_int,
+    pub max_height: c_int,
+    pub width_inc: c_int,
+    pub height_inc: c_int,
+    pub min_aspect: XSizeHintInternal,
+    pub max_aspect: XSizeHintInternal,
+    pub base_width: c_int,
+    pub base_height: c_int,
+    pub win_gravity: c_int
+}
+
+bitflags! {
+    #[repr(C)]
+    pub flags XWMHintFlags: c_long {
+        const Input = (1<<0),
+        const State = (1<<1),
+        const IconPixmap = (1<<2),
+        const IconWindow = (1<<3),
+        const IconPosition = (1<<4),
+        const IconMask = (1<<5),
+        const WindowGroup = (1<<6),
+        const Urgency = (1<<8),
+        const AllHints = Input.bits | State.bits | IconPixmap.bits |
+            IconWindow.bits | IconPosition.bits | WindowGroup.bits
+    }
+}
+
+#[repr(C)]
+pub struct XWMHints {
+    pub flags: XWMHintFlags,
+    pub input: bool,
+    pub initial_state: c_int,
+    pub icon_pixmap: c_ulong,
+    pub icon_window: c_ulong,
+    pub icon_x: c_int,
+    pub icon_y: c_int,
+    pub icon_mask: c_ulong,
+    pub window_group: c_ulong
 }
 
 #[repr(C)]
@@ -800,7 +872,44 @@ pub struct XClientMessageEvent {
     pub window: Window,
     pub message_type: Atom,
     pub format: c_int,
-    pub data: union_unnamed2,
+    pub data: [int32_t; 5],
+}
+
+impl XClientMessageEvent {
+    pub fn get_b(&self) -> Option<&[int8_t; 20]> {
+        match self.format {
+            8 => Some(unsafe { mem::transmute_copy(&self.data) }),
+            _ => None
+        }
+    }
+
+    pub fn get_s(&self) -> Option<&[int8_t; 10]> {
+        match self.format {
+            16 => Some(unsafe { mem::transmute_copy(&self.data) }),
+            _ => None
+        }
+    }
+
+    pub fn get_l(&self) -> Option<&[int8_t; 5]> {
+        match self.format {
+            32 => Some(unsafe { mem::transmute_copy(&self.data) }),
+            _ => None
+        }
+    }
+
+    pub fn set_b(&mut self, v: &[int8_t; 20]) {
+        self.format = 8;
+        self.data = unsafe { mem::transmute_copy(&v) };
+    }
+
+    pub fn set_s(&mut self, v: &[int8_t; 10]) {
+        self.format = 10;
+        self.data = unsafe { mem::transmute_copy(&v) };
+    }
+    pub fn set_l(&mut self, v: &[int8_t; 5]) {
+        self.format = 32;
+        self.data = unsafe { mem::transmute_copy(&v) };
+    }
 }
 
 #[repr(C)]
@@ -1662,6 +1771,10 @@ extern {
     pub fn XGetWindowProperty(arg0: *mut Display, arg1: Window, arg2: Atom, arg3: c_long, arg4: c_long, arg5: c_int, arg6: Atom, arg7: *mut Atom, arg8: *mut c_int, arg9: *mut c_ulong, arg10: *mut c_ulong, arg11: *mut *mut c_uchar) -> c_int;
 
     pub fn XGetWindowAttributes(arg0: *mut Display, arg1: Window, arg2: *mut XWindowAttributes) -> c_int;
+
+    pub fn XGetWMNormalHints(arg0: *mut Display, arg1: Window, arg2: *mut XSizeHints, arg3: *mut c_long) -> c_int;
+
+    pub fn XGetWMHints(arg0: *mut Display, arg1: Window) -> *mut XWMHints;
 
     pub fn XGrabButton(arg0: *mut Display, arg1: c_uint, arg2: c_uint, arg3: Window, arg4: c_int, arg5: c_uint, arg6: c_int, arg7: c_int, arg8: Window, arg9: Cursor) -> c_int;
 
