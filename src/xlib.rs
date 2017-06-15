@@ -80,50 +80,50 @@ pub const GenericEvent: c_int= 35;
 
 bitflags! {
     #[repr(C)]
-    pub flags InputEventMasks: c_long {
-        const NoEventMask = 0,
-        const KeyPressMask = (1<<0),
-        const KeyReleaseMask = (1<<1),
-        const ButtonPressMask = (1<<2),
-        const ButtonReleaseMask = (1<<3),
-        const EnterWindowMask = (1<<4),
-        const LeaveWindowMask = (1<<5),
-        const PointerMotionMask = (1<<6),
-        const PointerMotionHintMask = (1<<7),
-        const Button1MotionMask = (1<<8),
-        const Button2MotionMask = (1<<9),
-        const Button3MotionMask = (1<<10),
-        const Button4MotionMask = (1<<11),
-        const Button5MotionMask = (1<<12),
-        const ButtonMotionMask = (1<<13),
-        const KeymapStateMask = (1<<14),
-        const ExposureMask = (1<<15),
-        const VisibilityChangeMask = (1<<16),
-        const StructureNotifyMask = (1<<17),
-        const ResizeRedirectMask = (1<<18),
-        const SubstructureNotifyMask = (1<<19),
-        const SubstructureRedirectMask = (1<<20),
-        const FocusChangeMask = (1<<21),
-        const PropertyChangeMask = (1<<22),
-        const ColormapChangeMask = (1<<23),
-        const OwnerGrabButtonMask = (1<<24)
+    pub struct InputEventMasks: c_long {
+        const NoEventMask = 0;
+        const KeyPressMask = (1<<0);
+        const KeyReleaseMask = (1<<1);
+        const ButtonPressMask = (1<<2);
+        const ButtonReleaseMask = (1<<3);
+        const EnterWindowMask = (1<<4);
+        const LeaveWindowMask = (1<<5);
+        const PointerMotionMask = (1<<6);
+        const PointerMotionHintMask = (1<<7);
+        const Button1MotionMask = (1<<8);
+        const Button2MotionMask = (1<<9);
+        const Button3MotionMask = (1<<10);
+        const Button4MotionMask = (1<<11);
+        const Button5MotionMask = (1<<12);
+        const ButtonMotionMask = (1<<13);
+        const KeymapStateMask = (1<<14);
+        const ExposureMask = (1<<15);
+        const VisibilityChangeMask = (1<<16);
+        const StructureNotifyMask = (1<<17);
+        const ResizeRedirectMask = (1<<18);
+        const SubstructureNotifyMask = (1<<19);
+        const SubstructureRedirectMask = (1<<20);
+        const FocusChangeMask = (1<<21);
+        const PropertyChangeMask = (1<<22);
+        const ColormapChangeMask = (1<<23);
+        const OwnerGrabButtonMask = (1<<24);
     }
 }
 
 bitflags! {
     #[repr(C)]
-    pub flags XSizeHintFlags: c_long {
-        const USPosition = (1<<0),
-        const UsSize = (1<<1),
-        const PPosition = (1<<2),
-        const PSize = (1<<3),
-        const PMinSize = (1<<4),
-        const PMaxSize = (1<<5),
-        const PResizeInc = (1<<6),
-        const PAspect = (1<<7),
-        const PBaseSize = (1<<8),
-        const PWinGravity = (1<<9),
-        const PAllHints = (1<<10)-1
+    pub struct XSizeHintFlags: c_long {
+        const USPosition = (1<<0);
+        const UsSize = (1<<1);
+        const PPosition = (1<<2);
+        const PSize = (1<<3);
+        const PMinSize = (1<<4);
+        const PMaxSize = (1<<5);
+        const PResizeInc = (1<<6);
+        const PAspect = (1<<7);
+        const PBaseSize = (1<<8);
+        const PWinGravity = (1<<9);
+        const PAllHints = (1<<10)-1;
     }
 }
 
@@ -154,17 +154,17 @@ pub struct XSizeHints {
 
 bitflags! {
     #[repr(C)]
-    pub flags XWMHintFlags: c_long {
-        const Input = (1<<0),
-        const State = (1<<1),
-        const IconPixmap = (1<<2),
-        const IconWindow = (1<<3),
-        const IconPosition = (1<<4),
-        const IconMask = (1<<5),
-        const WindowGroup = (1<<6),
-        const Urgency = (1<<8),
+    pub struct XWMHintFlags: c_long {
+        const Input = (1<<0);
+        const State = (1<<1);
+        const IconPixmap = (1<<2);
+        const IconWindow = (1<<3);
+        const IconPosition = (1<<4);
+        const IconMask = (1<<5);
+        const WindowGroup = (1<<6);
+        const Urgency = (1<<8);
         const AllHints = Input.bits | State.bits | IconPixmap.bits |
-            IconWindow.bits | IconPosition.bits | WindowGroup.bits
+            IconWindow.bits | IconPosition.bits | WindowGroup.bits;
     }
 }
 
