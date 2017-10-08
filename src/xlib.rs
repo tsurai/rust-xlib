@@ -163,8 +163,12 @@ bitflags! {
         const IconMask = (1<<5);
         const WindowGroup = (1<<6);
         const Urgency = (1<<8);
-        const AllHints = Input.bits | State.bits | IconPixmap.bits |
-            IconWindow.bits | IconPosition.bits | WindowGroup.bits;
+        const AllHints = XWMHintFlags::Input.bits |
+            XWMHintFlags::State.bits |
+            XWMHintFlags::IconPixmap.bits |
+            XWMHintFlags::IconWindow.bits |
+            XWMHintFlags::IconPosition.bits |
+            XWMHintFlags::WindowGroup.bits;
     }
 }
 
