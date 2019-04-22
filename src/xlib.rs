@@ -133,6 +133,7 @@ pub struct XSizeHintInternal {
     pub y: c_int
 }
 
+#[repr(C)]
 pub struct XSizeHints {
     pub flags: XSizeHintFlags,
     pub x: c_int,
