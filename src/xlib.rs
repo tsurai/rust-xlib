@@ -462,7 +462,7 @@ pub struct XKeyboardState {
     pub bell_duration: c_uint,
     pub led_mask: c_ulong,
     pub global_auto_repeat: c_int,
-    pub auto_repeats: (c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char),
+    pub auto_repeats: [c_char; 32]
 }
 
 #[repr(C)]
@@ -600,7 +600,7 @@ pub struct XKeymapEvent {
     pub send_event: c_int,
     pub display: *mut Display,
     pub window: Window,
-    pub key_vector: (c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char,c_char),
+    pub key_vector: [c_char; 32],
 }
 
 #[repr(C)]
@@ -877,41 +877,41 @@ pub struct XClientMessageEvent {
     pub window: Window,
     pub message_type: Atom,
     pub format: c_int,
-    pub data: [int32_t; 5],
+    pub data: [i32; 5],
 }
 
 impl XClientMessageEvent {
-    pub fn get_b(&self) -> Option<&[int8_t; 20]> {
+    pub fn get_b(&self) -> Option<&[i8; 20]> {
         match self.format {
             8 => Some(unsafe { mem::transmute_copy(&self.data) }),
             _ => None
         }
     }
 
-    pub fn get_s(&self) -> Option<&[int8_t; 10]> {
+    pub fn get_s(&self) -> Option<&[i16; 10]> {
         match self.format {
             16 => Some(unsafe { mem::transmute_copy(&self.data) }),
             _ => None
         }
     }
 
-    pub fn get_l(&self) -> Option<&[int8_t; 5]> {
+    pub fn get_l(&self) -> Option<&[i32; 5]> {
         match self.format {
             32 => Some(unsafe { mem::transmute_copy(&self.data) }),
             _ => None
         }
     }
 
-    pub fn set_b(&mut self, v: &[int8_t; 20]) {
+    pub fn set_b(&mut self, v: &[i8; 20]) {
         self.format = 8;
         self.data = unsafe { mem::transmute_copy(&v) };
     }
 
-    pub fn set_s(&mut self, v: &[int8_t; 10]) {
+    pub fn set_s(&mut self, v: &[i16; 10]) {
         self.format = 10;
         self.data = unsafe { mem::transmute_copy(&v) };
     }
-    pub fn set_l(&mut self, v: &[int8_t; 5]) {
+    pub fn set_l(&mut self, v: &[i32; 5]) {
         self.format = 32;
         self.data = unsafe { mem::transmute_copy(&v) };
     }
