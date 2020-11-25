@@ -1012,6 +1012,14 @@ pub struct XFontStruct {
 }
 
 #[repr(C)]
+pub struct XTextProperty {
+    pub value: *mut c_uchar,
+    pub encoding: Atom,
+    pub format: c_int,
+    pub nitems: c_ulong,
+}
+
+#[repr(C)]
 pub struct XTextItem {
     pub chars: *mut c_char,
     pub nchars: c_int,
@@ -1702,6 +1710,8 @@ extern {
     pub fn XDrawText(arg0: *mut Display, arg1: Drawable, arg2: GC, arg3: c_int, arg4: c_int, arg5: *mut XTextItem, arg6: c_int) -> c_int;
 
     pub fn XDrawText16(arg0: *mut Display, arg1: Drawable, arg2: GC, arg3: c_int, arg4: c_int, arg5: *mut XTextItem16, arg6: c_int) -> c_int;
+
+    pub fn XGetTextProperty(arg0: *mut Display, arg1: Window, arg2: *mut XTextProperty, arg3: Atom) -> c_int;
 
     pub fn XEnableAccessControl(arg0: *mut Display) -> c_int;
 
